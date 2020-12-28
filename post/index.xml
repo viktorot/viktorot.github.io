@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on detached HEAD</title>
+    <link>https://viktorot.github.io/post/</link>
+    <description>Recent content in Posts on detached HEAD</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 28 Dec 2020 07:10:36 -0800</lastBuildDate><atom:link href="https://viktorot.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Inital commit</title>
+      <link>https://viktorot.github.io/post/inital/</link>
+      <pubDate>Mon, 28 Dec 2020 07:10:36 -0800</pubDate>
+      
+      <guid>https://viktorot.github.io/post/inital/</guid>
+      <description>Just testing if everything works.
+Stay tuned for more.</description>
+    </item>
+    
+  </channel>
+</rss>

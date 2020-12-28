@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://viktorot.github.io/</loc>
+    <lastmod>2020-12-28T07:10:36-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://viktorot.github.io/post/inital/</loc>
+    <lastmod>2020-12-28T07:10:36-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://viktorot.github.io/post/</loc>
+    <lastmod>2020-12-28T07:10:36-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://viktorot.github.io/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://viktorot.github.io/tags/</loc>
+  </url>
+  
+</urlset>
