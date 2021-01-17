@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="generator" content="Hugo 0.79.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700" type="text/css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="detached HEAD">
+<title>Objective 1 - Uncover Santa&#39;s Gift List - detached HEAD</title>
+
+<style>
+    img[src$='#center'] {
+        width: inherit;
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="container clearfix">
+    <a class="path" href="https://viktorot.github.io/">[detached HEAD]</a>
+    <span class="caret"># _</span>
+    <div class="right">
+      
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+
+<main role="main" class="article">
+  
+<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="meta">
+
+    <span class="key">published on</span>
+    <span class="val"><time itemprop="datePublished" datetime="2021-01-17">January 17, 2021</time></span>
+
+
+
+  </div>
+  <h1 class="headline" itemprop="headline">Objective 1 - Uncover Santa&#39;s Gift List</h1>
+  <section class="body" itemprop="articleBody">
+    <p>The story start as we are thrown near the 7A highway exit. We&rsquo;re greeted by an elf named <code>Jingle Ringford</code>. He tells us that we can use the gondola next to him to reach Santa&rsquo;s castle. Before leaving he points out a billboard next to the highway that has an image, part of which is distorted.</p>
+<h1 id="objective">Objective</h1>
+<p>Our task it to try and read the distorted part of the billboard image and find out what <code>Josh Wright</code> is getting for the holidays.</p>
+<h1 id="solution">Solution</h1>
+<p>The original image looks like this:</p>
+<p><a href="/kringle20/billboard.png"><img src="/kringle20/billboard.png" alt="Original"></a></p>
+<p>With a little bit of googling of how to <code>un-twirl</code> or <code>un-swirl</code> an image, we can find a <a href="https://cybercop-training.ch/?p=457">couple</a> of <a href="https://matzjb.se/2015/07/26/deconstructing-swirl-face/">articles</a> that tell us that this type of distortion or obfuscation can be reversed.<!-- raw HTML omitted --></p>
+<p>Next step is to find a tool that can help us with the de-obfuscation. I ultimately used <a href="https://www.photopea.com/">this</a> tool. With a little playing around with <code>lasso</code> and the <code>swirl</code> tools, I managed to undo the obfuscation.</p>
+<p><a href="/kringle20/billboard-unswirled.png"><img src="/kringle20/billboard-unswirled.png" alt="Solution"></a></p>
+<p>Tho it&rsquo;s not perfect, it&rsquo;s enough to read the solution for the objective. We can see that <code>Josh Wright</code> is getting a <code>proxmark</code>.<!-- raw HTML omitted --></p>
+<p>You can find the solutions to the other challenges <a href="/post/kringle20/intro/">here</a>.</p>
+
+  </section>
+</article>
+
+</main>
+
+</div>
+
+<footer>
+  <div class="container">
+    <span class="copyright">&copy; 2021 detached HEAD - <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
+
