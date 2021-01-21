@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="generator" content="Hugo 0.79.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700" type="text/css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="detached HEAD">
+<title>Objective 2 - Investigate S3 Bucket - detached HEAD</title>
+
+<style>
+    img[src$='#center'] {
+        width: inherit;
+        display: block;
+        margin: 0 auto;
+    }
+    .container {
+      max-width: 70rem;
+    }
+    article.single figure, article.single div.highlight{
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0rem;
+    }
+     
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="container clearfix">
+    <a class="path" href="https://viktorot.github.io/">[detached HEAD]</a>
+    <span class="caret"># _</span>
+    <div class="right">
+      
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+
+<main role="main" class="article">
+  
+<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="meta">
+
+    <span class="key">published on</span>
+    <span class="val"><time itemprop="datePublished" datetime="2021-01-20">January 20, 2021</time></span>
+
+
+
+  </div>
+  <h1 class="headline" itemprop="headline">Objective 2 - Investigate S3 Bucket</h1>
+  <section class="body" itemprop="articleBody">
+    <p>The gondola takes us to Santa&rsquo;s new castle. We arrive in front and take a short walk around. In front of the entrance an elf by the name of <code>Shinny Upatree</code> waves to us. Next to him there&rsquo;s a kiosk with a terminal. Activating the terminal, we get the following prompt:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">Can you help me? Santa has been experimenting with new wrapping technology, and we’ve run into a ribbon-curling nightmare! 
+We store our essential data assets in the cloud, and what a joy it’s been!
+Except I don’t remember where, and the <span style="font-weight:bold">**Wrapper3000**</span> is on the fritz! 
+Can you find the missing package, and unwrap it all the way?
+
+Hints: Use the file command to identify a file type. You can also examine tool help using the man command. 
+Search all man pages for a string such as a file extension using the apropos command.
+</code></pre></div><h1 id="finding-the-bucket">Finding the bucket</h1>
+<p>On the terminal we find a folder named <code>bucket_finder</code>, which contains a Ruby script for finding public AWS S3 buckets. Alongside the script we also find a sample wordlist file with the contents:</p>
+<pre><code>kringlecastle
+wrapper
+santa
+</code></pre><p>Running the script with the wordlist file tells us that there is a bucket with the name <code>santa</code>, but unfortunately we cannot access it&rsquo;s contents. Here&rsquo;s the output:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">$ ./bucket_finder.rb wordlist
+
+http://s3.amazonaws.com/kringlecastle
+Bucket found but access denied: kringlecastle
+http://s3.amazonaws.com/wrapper
+http://s3.amazonaws.com/santa
+Bucket santa redirects to: santa.s3.amazonaws.com
+http://santa.s3.amazonaws.com/
+<span style="font-weight:bold">**Bucket found but access denied: santa**</span>
+</code></pre></div><p>If we take a closer look at the prompt we got when we opened the terminal, we see that it mentions something about a <code>Wrapper3000</code> that is somehow malfunctioning. Taking that information, we update the wordfile and add a new entry with the string <code>wrapper3000</code>. Re-running the script we get the following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">$ ./bucket_finder.rb wordlist
+
+http://s3.amazonaws.com/wrapper3000
+Bucket Found: wrapper3000 ( http://s3.amazonaws.com/wrapper3000 )
+<span style="font-weight:bold">**&lt;Public&gt; http://s3.amazonaws.com/wrapper3000/package**</span>
+</code></pre></div><p>Bingo!</p>
+<h1 id="opening-the-bucket">Opening the bucket</h1>
+<p>Now, lets see what can we find inside. The scripts has an option to download bucket contents, so lets use it:</p>
+<pre><code>$ ./bucket_finder.rb --download wordlist
+</code></pre><h1 id="unwrapping-gifts">Unwrapping gifts</h1>
+<p>This creates a folder <code>wrapper3000</code> with a file <code>package</code> with the content:</p>
+<pre><code>UEsDBAoAAAAAAIAwhFEbRT8anwEAAJ8BAAAcABwAcGFja2FnZS50eHQuWi54ei54eGQudGFyLmJ6MlVUCQADoBfKX6AXyl91eAsAAQT2AQAABBQAAABCWmg5MUFZJlNZ2ktivwABHv+Q3hASgGSn//AvBxDwf/xe0gQAAAgwAVmkYRTKe1PVM9U0ekMg2poAAAGgPUPUGqehhCMSgaBoAD1NNAAAAyEmJpR5QGg0bSPU/VA0eo9IaHqBkxw2YZK2NUASOegDIzwMXMHBCFACgIEvQ2Jrg8V50tDjh61Pt3Q8CmgpFFunc1Ipui+SqsYB04M/gWKKc0Vs2DXkzeJmiktINqjo3JjKAA4dLgLtPN15oADLe80tnfLGXhIWaJMiEeSX992uxodRJ6EAzIFzqSbWtnNqCTEDML9AK7HHSzyyBYKwCFBVJh17T636a6YgyjX0eE0IsCbjcBkRPgkKz6q0okb1sWicMaky2Mgsqw2nUm5ayPHUeIktnBIvkiUWxYEiRs5nFOM8MTk8SitV7lcxOKst2QedSxZ851ceDQexsLsJ3C89Z/gQ6Xn6KBKqFsKyTkaqO+1FgmImtHKoJkMctd2B9JkcwvMr+hWIEcIQjAZGhSKYNPxHJFqJ3t32Vjgn/OGdQJiIHv4u5IpwoSG0lsV+UEsBAh4DCgAAAAAAgDCEURtFPxqfAQAAnwEAABwAGAAAAAAAAAAAAKSBAAAAAHBhY2thZ2UudHh0LloueHoueHhkLnRhci5iejJVVAUAA6AXyl91eAsAAQT2AQAABBQAAABQSwUGAAAAAAEAAQBiAAAA9QEAAAAA
+</code></pre><p>This is base64, so we can decode it and see what has been encoded.</p>
+<pre><code>$ cat package | base64 -d &gt;&gt; decoded
+</code></pre><p>This creates a new <code>decoded</code> on the terminal. Running <code>file</code> on it, we see it&rsquo;s is a zip archive, so we unzip it.</p>
+<pre><code>$ file decoded
+decoded: Zip archive data, at least v1.0 to extract
+
+$ unzip decoded
+Archive:  decoded
+ extracting: package.txt.Z.xz.xxd.tar.bz2
+</code></pre><p>The file that was extracted from the archive has a lot of extensions, meaning it probably has been compressed/re-packaged multiple times. The first extension is <code>.bz2</code>. We continue with the unpacking:</p>
+<pre><code>$ bunzip2  package.txt.Z.xz.xxd.tar.bz2
+</code></pre><p>which creates a new file <code>package.txt.Z.xz.xxd.tar</code>. We continue with:</p>
+<pre><code>$ tar xvf package.txt.Z.xz.xxd.tar
+</code></pre><p>For the next step we have a file with the <code>xxd</code> extension. <a href="https://linux.die.net/man/1/xxd">xxd</a> is a program that dumps the contents of a given file in hex. The file we have to process is a hexdump that we have to re-package. Fortunately the tool that creates hexdumps also allows is to reverse them.</p>
+<pre><code>$ xxd -r package.txt.Z.xz.xxd &gt;&gt; unhexed 
+</code></pre><p>Now we have a new file <code>unhexed</code>. Checking the filetype, we see that it is an <code>xz</code> compressed file, which is also hinted by the next extension from of file in the previous step.</p>
+<pre><code>$ file unhexed
+
+unhexed: XZ compressed data
+</code></pre><p>We can un-compress it with:</p>
+<pre><code>cat package.txt.Z.xz | xz -d &gt; package.txt.Z
+</code></pre><p>We&rsquo;re almost at the finish line. From the <code>xz</code> compressed file we get a file with a <code>.Z</code> extension. A little bit of googling tells us that it&rsquo;s a <code>gzip</code> file. The search give us (zcat)[https://linux.die.net/man/1/zcat] that can un-compress it read it&rsquo;s contents. Running it gives us the solution:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">zcat package.txt.Z
+<span style="font-weight:bold">**North Pole: The Frostiest Place on Earth**</span>
+</code></pre></div><hr>
+<p>You can find the solutions to the other challenges <a href="/post/kringle20/intro/">here</a>.</p>
+
+  </section>
+</article>
+
+</main>
+
+</div>
+
+<footer>
+  <div class="container">
+    <span class="copyright">&copy; 2021 detached HEAD - <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
+
