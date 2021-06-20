@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="generator" content="Hugo 0.79.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700" type="text/css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="detached HEAD">
+<title>Objective 3 - Point-of-Sale Password Recovery - detached HEAD</title>
+
+<style>
+    img[src$='#center'] {
+        width: inherit;
+        display: block;
+        margin: 0 auto;
+    }
+    .container {
+      max-width: 70rem;
+    }
+    article.single figure, article.single div.highlight{
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0rem;
+    }
+     
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="container clearfix">
+    <a class="path" href="https://viktorot.github.io/">[detached HEAD]</a>
+    <span class="caret"># _</span>
+    <div class="right">
+      
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+
+<main role="main" class="article">
+  
+<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="meta">
+
+    <span class="key">published on</span>
+    <span class="val"><time itemprop="datePublished" datetime="2021-06-20">June 20, 2021</time></span>
+
+
+
+  </div>
+  <h1 class="headline" itemprop="headline">Objective 3 - Point-of-Sale Password Recovery</h1>
+  <section class="body" itemprop="articleBody">
+    <p>Going in to the courtyard, we find <code>Sugarplum Mary</code>. He tells us that he has a new POS terminal. The only problem is, he can&rsquo;t find the supervisor password. All he can gives us is the POS terminal application.</p>
+<p>Once installed, we can open the app, but not much more than that. The first thing is does, it asks for the password. The first thing that jumps at you is the app&rsquo;s icon.</p>
+<p><img src="/kringle20/santa-electron.png#center" alt="Icon"></p>
+<p>This hints at me that the applications is probably an <a href="https://www.electronjs.org/">Electron</a> app. Taking a closer look at the install folder confirms this.</p>
+<p>Electron apps are packaged with <a href="https://github.com/electron/asar">asar</a>. Good thing for us is, we can use the same tools to unpack the app.
+After installing the required tools, we try unpack the POS' terminal <code>.asar</code> file located in <code>%localappdata%\Programs\santa-shop</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">asar extract app.asar sourcecode
+</code></pre></div><p>After some looking through source, we can find the following line of code:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">SANTA_PASSWORD</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;santapass&#39;</span>;
+</code></pre></div><hr>
+<p>You can find the solutions to the other challenges <a href="/post/kringle20/intro/">here</a>.</p>
+
+  </section>
+</article>
+
+</main>
+
+</div>
+
+<footer>
+  <div class="container">
+    <span class="copyright">&copy; 2021 detached HEAD - <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
+
