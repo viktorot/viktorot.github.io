@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="generator" content="Hugo 0.79.1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700" type="text/css">
+<link rel="alternate" href="/index.xml" type="application/rss+xml" title="detached HEAD">
+<title>Objective 4 - Operate the Santavator - detached HEAD</title>
+
+<style>
+    img[src$='#center'] {
+        width: inherit;
+        display: block;
+        margin: 0 auto;
+    }
+    .container {
+      max-width: 70rem;
+    }
+    article.single figure, article.single div.highlight{
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0rem;
+    }
+     
+</style>
+
+</head>
+<body>
+
+<header>
+  <div class="container clearfix">
+    <a class="path" href="https://viktorot.github.io/">[detached HEAD]</a>
+    <span class="caret"># _</span>
+    <div class="right">
+      
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+
+<main role="main" class="article">
+  
+<article class="single" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="meta">
+
+    <span class="key">published on</span>
+    <span class="val"><time itemprop="datePublished" datetime="2021-06-27">June 27, 2021</time></span>
+
+
+
+  </div>
+  <h1 class="headline" itemprop="headline">Objective 4 - Operate the Santavator</h1>
+  <section class="body" itemprop="articleBody">
+    <p><code>Sparkle Redberry</code> greets us it the hallway of Santa&rsquo;s castle and tells us that there is something wrong with Santa&rsquo;s elevator.
+He tells us to look under the S4 (Super Santavator Sparkle Stream) panel and see if we can get the elevator working again.</p>
+<p>When we open the panel up we see a bunch of electronic boards and an electronic particle stream, flowing upwards. There are also three differently colored openings.</p>
+<p>On top of the electronic board we see items that we picked up as we were walking through the yard and castle. We can use the items to manipulate the particle stream&rsquo;s flow and guide it towards the openings. To get the elevator to work, we need to activate manipulate the particle stream and get it to flow into the colored openings to activate the elevator.</p>
+<p>And here is where I managed to solve this objective and an <a href="/post/kringle20/objective10/">objective</a> that has still not appeared. See, after getting the jest of how the challenge is constructed, first thing I did is make a quick pass of the JS code that runs the elevator logic. First thing I noticed is that the script reads <code>tokens</code> from the URL parameters and parses them. These happen to the the items you have found through the castle up to this point.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">getParams</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">__PARSE_URL_VARS__</span>();
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">tokens</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">getParams</span>.<span style="color:#a6e22e">tokens</span> <span style="color:#f92672">||</span> <span style="color:#e6db74">&#39;&#39;</span>).<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;,&#39;</span>);
+</code></pre></div><p>Looking further down the source code, we can see a <code>defaultState</code> variable. As it turns out, it contains a list of all available tokens/items. So if we update the URL with a list of all the tokens available, we should see them all on the electronic panel. And that is exactly what happens.</p>
+<pre><code>https://elevator.kringlecastle.com?challenge=santamode-elevator&amp;area=santamode-santavator1&amp;tokens=ball,redlight,elevator-key,nut,nut2,candycane,workshop-button,marble,greenlight,yellowlight
+</code></pre><p>Once we get that working, all it&rsquo;s left to do is to re-arrange all the items, so that the particle beam goes to the openings and the elevator activates. As some other write-ups mentioned, you can manipulate the CSS of the item sprites and make the game easily. I decided to play the hard mode and use the items as-is. And here is what I came up with.</p>
+<p><img src="/kringle20/elevator.png#center" alt="Solution"></p>
+<p>And with that, the objective is complete</p>
+<hr>
+<p>You can find the solutions to the other challenges <a href="/post/kringle20/intro/">here</a>.</p>
+
+  </section>
+</article>
+
+</main>
+
+</div>
+
+<footer>
+  <div class="container">
+    <span class="copyright">&copy; 2021 detached HEAD - <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
+
